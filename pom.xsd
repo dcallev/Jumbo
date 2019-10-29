@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://maven.apache.org/POM/4.0.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="project" type="ns:projectType" xmlns:ns="http://maven.apache.org/POM/4.0.0"/>
+  <xs:complexType name="propertiesType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="project.build.sourceEncoding"/>
+      <xs:element type="xs:string" name="serenity.version"/>
+      <xs:element type="xs:string" name="serenity.maven.version">
+        <xs:annotation>
+          <xs:documentation>https://bintray.com/serenity/maven/serenity-core/</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element type="xs:string" name="serenity.cucumber.version"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="repositoryType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="id"/>
+      <xs:element type="xs:string" name="name"/>
+      <xs:element type="xs:string" name="url"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="repositoriesType">
+    <xs:sequence>
+      <xs:element type="ns:repositoryType" name="repository" xmlns:ns="http://maven.apache.org/POM/4.0.0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pluginRepositoryType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="id"/>
+      <xs:element type="xs:string" name="name"/>
+      <xs:element type="xs:string" name="url"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pluginRepositoriesType">
+    <xs:sequence>
+      <xs:element type="ns:pluginRepositoryType" name="pluginRepository" xmlns:ns="http://maven.apache.org/POM/4.0.0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="dependencyType">
+    <xs:sequence>
+      <xs:element name="groupId">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="com.opencsv"/>
+            <xs:enumeration value="net.serenity-bdd"/>
+            <xs:enumeration value="org.slf4j"/>
+            <xs:enumeration value="org.codehaus.groovy"/>
+            <xs:enumeration value="org.assertj"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="artifactId">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="opencsv"/>
+            <xs:enumeration value="serenity-core"/>
+            <xs:enumeration value="serenity-junit"/>
+            <xs:enumeration value="serenity-rest-assured"/>
+            <xs:enumeration value="serenity-cucumber"/>
+            <xs:enumeration value="slf4j-simple"/>
+            <xs:enumeration value="groovy-all"/>
+            <xs:enumeration value="assertj-core"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="version">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="4.0"/>
+            <xs:enumeration value="${serenity.version}"/>
+            <xs:enumeration value="${serenity.cucumber.version}"/>
+            <xs:enumeration value="1.6.1"/>
+            <xs:enumeration value="1.8.6"/>
+            <xs:enumeration value="3.8.0"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="scope" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="dependenciesType">
+    <xs:sequence>
+      <xs:element type="ns:dependencyType" name="dependency" maxOccurs="unbounded" minOccurs="0" xmlns:ns="http://maven.apache.org/POM/4.0.0">
+        <xs:annotation>
+          <xs:documentation><![CDATA[https://mvnrepository.com/artifact/com.opencsv/opencsv  <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>]]></xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="compilerArgumentsType">
+    <xs:sequence>
+      <xs:element name="source">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="${maven.compiler.target}"/>
+            <xs:enumeration value="${maven.compiler.testTarget}"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="target">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="${maven.compiler.source}"/>
+            <xs:enumeration value="${maven.compiler.testSource}"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="configurationType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="showDeprecation" minOccurs="0"/>
+      <xs:element type="xs:string" name="showWarnings" minOccurs="0"/>
+      <xs:element type="ns:compilerArgumentsType" name="compilerArguments" minOccurs="0" xmlns:ns="http://maven.apache.org/POM/4.0.0"/>
+      <xs:element type="xs:string" name="testFailureIgnore" minOccurs="0"/>
+      <xs:element type="ns:includesType" name="includes" minOccurs="0" xmlns:ns="http://maven.apache.org/POM/4.0.0"/>
+      <xs:element type="ns:systemPropertiesType" name="systemProperties" minOccurs="0" xmlns:ns="http://maven.apache.org/POM/4.0.0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="executionType">
+    <xs:sequence>
+      <xs:element name="id">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="default-compile"/>
+            <xs:enumeration value="default-testCompile"/>
+            <xs:enumeration value="serenity-reports"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="ns:configurationType" name="configuration" minOccurs="0" xmlns:ns="http://maven.apache.org/POM/4.0.0"/>
+      <xs:element type="xs:string" name="phase" minOccurs="0"/>
+      <xs:element type="ns:goalsType" name="goals" minOccurs="0" xmlns:ns="http://maven.apache.org/POM/4.0.0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="executionsType">
+    <xs:sequence>
+      <xs:element type="ns:executionType" name="execution" maxOccurs="unbounded" minOccurs="0" xmlns:ns="http://maven.apache.org/POM/4.0.0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pluginType">
+    <xs:sequence>
+      <xs:element name="groupId">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="org.apache.maven.plugins"/>
+            <xs:enumeration value="net.serenity-bdd.maven.plugins"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="artifactId">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="maven-compiler-plugin"/>
+            <xs:enumeration value="serenity-maven-plugin"/>
+            <xs:enumeration value="maven-surefire-plugin"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="version">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="3.7.0"/>
+            <xs:enumeration value="1.5.9"/>
+            <xs:enumeration value="2.20.1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="ns:executionsType" name="executions" minOccurs="0" xmlns:ns="http://maven.apache.org/POM/4.0.0"/>
+      <xs:element type="ns:configurationType" name="configuration" minOccurs="0" xmlns:ns="http://maven.apache.org/POM/4.0.0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="goalsType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="goal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="includesType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="include"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="systemPropertiesType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="webdriver.driver"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pluginsType">
+    <xs:sequence>
+      <xs:element type="ns:pluginType" name="plugin" maxOccurs="unbounded" minOccurs="0" xmlns:ns="http://maven.apache.org/POM/4.0.0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="buildType">
+    <xs:sequence>
+      <xs:element type="ns:pluginsType" name="plugins" xmlns:ns="http://maven.apache.org/POM/4.0.0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="projectType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="modelVersion"/>
+      <xs:element type="xs:string" name="groupId"/>
+      <xs:element type="xs:string" name="artifactId"/>
+      <xs:element type="xs:string" name="version"/>
+      <xs:element type="xs:string" name="packaging"/>
+      <xs:element type="xs:string" name="name"/>
+      <xs:element type="xs:string" name="url"/>
+      <xs:element type="ns:propertiesType" name="properties" xmlns:ns="http://maven.apache.org/POM/4.0.0">
+        <xs:annotation>
+          <xs:documentation>https://bintray.com/serenity/maven/serenity-cucumber/</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element type="ns:repositoriesType" name="repositories" xmlns:ns="http://maven.apache.org/POM/4.0.0">
+        <xs:annotation>
+          <xs:documentation>Define the Bintray repos for convenience</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element type="ns:pluginRepositoriesType" name="pluginRepositories" xmlns:ns="http://maven.apache.org/POM/4.0.0"/>
+      <xs:element type="ns:dependenciesType" name="dependencies" xmlns:ns="http://maven.apache.org/POM/4.0.0">
+        <xs:annotation>
+          <xs:documentation><![CDATA[<dependency>
+		    <groupId>org.testng</groupId>
+		    <artifactId>testng</artifactId>
+		    <version>6.11</version>
+		    <scope>test</scope>
+		</dependency>]]></xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element type="ns:buildType" name="build" xmlns:ns="http://maven.apache.org/POM/4.0.0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
